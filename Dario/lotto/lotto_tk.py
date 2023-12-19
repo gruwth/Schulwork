@@ -2,8 +2,8 @@ import random
 import tkinter as tk
 
 
-def update_label_text(label, text):
-    label.config(text=text)
+def update_label_text(label_, text):
+    label_.config(text=text)
 
 
 def button_lock_number(button_nr):
@@ -30,6 +30,21 @@ def button_lock_in():
     if validate(selected_winners):
         amount = sum(1 for i in selected_winners if i in act_winners)
         update_label_text(win_label, f"Du hast {amount} richtig.")
+
+
+def button_reset():
+    global act_winners, sz_winners
+    selected_winners.clear()
+
+    for button_ in buttons:
+        button_.config(bg="SystemButtonFace")
+
+    act_winners, sz_winners = get_winners()
+
+    while not validate(act_winners):
+        act_winners, _ = get_winners()
+
+    update_label_text(win_label, "Board reset!")
 
 
 def validate(lst):
@@ -62,6 +77,9 @@ for i in range(7):
         button = tk.Button(root, text=button_number, command=lambda num=button_number: button_lock_number(num))
         button.grid(row=i + 2, column=j, sticky="nsew")  # Use sticky to make buttons expand
         buttons.append(button)
+
+reset_button = tk.Button(root, text="Reset", command=lambda: button_reset())
+reset_button.grid(row=12, column=2, columnspan=3, sticky="nsew")
 
 lock_button = tk.Button(root, text="Lock in", command=button_lock_in)
 lock_button.grid(row=11, column=0, columnspan=7, sticky="nsew")
