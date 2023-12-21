@@ -12,18 +12,38 @@ def button_lock_number(button_nr):
         if len(selected_winners) >= 6:
             # If there are 6 or more selected buttons, deselect the first one
             first_selected = selected_winners.pop(0)
-            buttons[first_selected - 1].config(bg="SystemButtonFace")  # Change the color back to the default
+            p_button[first_selected - 1].config(bg="SystemButtonFace")  # Change the color back to the default
 
         # Update the list and color the clicked button
         selected_winners.append(button_nr)
-        buttons[button_nr - 1].config(bg="green")
+        p_button[button_nr - 1].config(bg="green")
 
     # If the button is already selected, deselect it
     else:
         selected_winners.remove(button_nr)
-        buttons[button_nr - 1].config(bg="SystemButtonFace")
+        p_button[button_nr - 1].config(bg="SystemButtonFace")
 
     update_label_text(validate_label, "Choice is valid!" if validate(selected_winners) else "Choice is invalid!")
+
+
+def button_sz_lock(button_nr):
+    if button_nr not in selected_sz:
+        # Check if there are already 6 selected buttons
+        if len(selected_sz) >= 1:
+            # If there are 6 or more selected buttons, deselect the first one
+            first_selected = selected_sz.pop(0)
+            sz_button[first_selected - 1].config(bg="SystemButtonFace")  # Change the color back to the default
+
+        # Update the list and color the clicked button
+        selected_sz.append(button_nr)
+        sz_button[button_nr - 1].config(bg="green")
+
+    # If the button is already selected, deselect it
+    else:
+        selected_sz.remove(button_nr)
+        sz_button[button_nr - 1].config(bg="SystemButtonFace")
+
+    update_label_text(validate_label, "Choice is valid!" if validate(selected_sz) else "Choice is invalid!")
 
 
 def button_lock_in():
@@ -36,7 +56,7 @@ def button_reset():
     global act_winners, sz_winners
     selected_winners.clear()
 
-    for button_ in buttons:
+    for button_ in p_button:
         button_.config(bg="SystemButtonFace")
 
     act_winners, sz_winners = get_winners()
@@ -58,11 +78,14 @@ def get_winners():
 
 
 root = tk.Tk()
+root.title("Lotto")
+root.minsize(500, 500)
 
 label = tk.Label(root, text="Lotto 6 aus 49")
-label.grid(row=0, column=0, columnspan=7)
+label.grid(row=0, column=0, columnspan=9)
 
-buttons = []
+p_button = []
+sz_button = []
 selected_winners = []
 selected_sz = []
 
@@ -75,24 +98,31 @@ for i in range(7):
     for j in range(7):
         button_number = i * 7 + j + 1
         button = tk.Button(root, text=button_number, command=lambda num=button_number: button_lock_number(num))
-        button.grid(row=i + 2, column=j, sticky="nsew")  # Use sticky to make buttons expand
-        buttons.append(button)
+        button.grid(row=i + 3, column=j + 1, sticky="nsew")  # Use sticky to make buttons expand
+        p_button.append(button)
+
+for i in range(0, 10):
+    button_number = i
+    button = tk.Button(root, text=i, command=lambda num=button_number: button_sz_lock(num))
+    button.grid(row=i + 2, column=9, sticky="nsew")
+    sz_button.append(button)
 
 reset_button = tk.Button(root, text="Reset", command=lambda: button_reset())
-reset_button.grid(row=12, column=2, columnspan=3, sticky="nsew")
+reset_button.grid(row=14, column=3, columnspan=3, sticky="nsew")
 
 lock_button = tk.Button(root, text="Lock in", command=button_lock_in)
-lock_button.grid(row=11, column=0, columnspan=7, sticky="nsew")
+lock_button.grid(row=13, column=0, columnspan=9, sticky="nsew")
 
 validate_label = tk.Label(root, text="")
-validate_label.grid(row=10, column=0, columnspan=7)
+validate_label.grid(row=10, column=0, columnspan=9)
 
 win_label = tk.Label(root, text="---Result---")
-win_label.grid(row=14, column=0, columnspan=7)
+win_label.grid(row=16, column=0, columnspan=9)
 
 # Set a common minsize for all columns and rows to ensure uniform size
-for i in range(7):
+for i in range(10):
     root.grid_columnconfigure(i, minsize=50)
-    root.grid_rowconfigure(i + 10, minsize=50)
+    root.grid_rowconfigure(i + 13, minsize=50)
 
 root.mainloop()
+
