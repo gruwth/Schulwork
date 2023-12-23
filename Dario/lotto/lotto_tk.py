@@ -2,69 +2,72 @@ import random
 import tkinter as tk
 
 
+class Button:
+    DEFAULT_COLOR = "SystemButtonFace"
+    SELECTED_COLOR = "green"
+
+    def __init__(self, number, config_func):
+        self.number = number
+        self.is_selected = False
+        self.config_func = config_func
+
+    def toggle(self):
+        self.is_selected = not self.is_selected
+        self.update_color()
+
+    def update_color(self):
+        color = self.SELECTED_COLOR if self.is_selected else self.DEFAULT_COLOR
+        self.config_func(bg=color)
+
+
+def button_click(button_nr):
+    button = buttons[button_nr]
+    button.toggle()
+
+    valid = validate([b.number for b in buttons.values() if b.is_selected])
+    update_label_text(validate_label, "Choice is valid!" if valid else "Choice is invalid!")
+
+
+def button_sz_lock(button_nr):
+    for button in sz_buttons.values():
+        if button.is_selected and button.number != button_nr:
+            button.toggle()
+
+    button = sz_buttons[button_nr]
+    button.toggle()
+
+    valid = validate([b.number for b in sz_buttons.values() if b.is_selected])
+    update_label_text(validate_label, "Choice is valid!" if valid else "Choice is invalid!")
+
+
 def update_label_text(label_, text):
     label_.config(text=text)
 
 
-def button_lock_number(button_nr):
-    if button_nr not in selected_winners:
-        # Check if there are already 6 selected buttons
-        if len(selected_winners) >= 6:
-            # If there are 6 or more selected buttons, deselect the first one
-            first_selected = selected_winners.pop(0)
-            p_button[first_selected - 1].config(bg="SystemButtonFace")  # Change the color back to the default
-
-        # Update the list and color the clicked button
-        selected_winners.append(button_nr)
-        p_button[button_nr - 1].config(bg="green")
-
-    # If the button is already selected, deselect it
-    else:
-        selected_winners.remove(button_nr)
-        p_button[button_nr - 1].config(bg="SystemButtonFace")
-
-    update_label_text(validate_label, "Choice is valid!" if validate(selected_winners) else "Choice is invalid!")
-
-
-def button_sz_lock(button_nr):
-    if button_nr not in selected_sz:
-        # Check if there are already 6 selected buttons
-        if len(selected_sz) >= 1:
-            # If there are 6 or more selected buttons, deselect the first one
-            first_selected = selected_sz.pop(0)
-            sz_button[first_selected - 1].config(bg="SystemButtonFace")  # Change the color back to the default
-
-        # Update the list and color the clicked button
-        selected_sz.append(button_nr)
-        sz_button[button_nr - 1].config(bg="green")
-
-    # If the button is already selected, deselect it
-    else:
-        selected_sz.remove(button_nr)
-        sz_button[button_nr - 1].config(bg="SystemButtonFace")
-
-    update_label_text(validate_label, "Choice is valid!" if validate(selected_sz) else "Choice is invalid!")
-
-
 def button_lock_in():
-    if validate(selected_winners):
-        amount = sum(1 for i in selected_winners if i in act_winners)
-        update_label_text(win_label, f"Du hast {amount} richtig.")
+    selected_numbers = [b.number for b in buttons.values() if b.is_selected]
+    selected_sz = [b.number for b in sz_buttons.values() if b.is_selected]
+
+    if validate(selected_numbers) and len(selected_sz) == 1:
+        amount = sum(1 for i in selected_numbers if i in act_winners)
+        sz_amount = 1 if selected_sz[0] == sz_winners else 0
+        update_label_text(win_label, f"Du hast {amount} + {sz_amount} richtig.")
+    else:
+        update_label_text(win_label, "Invalid selection.")
 
 
 def button_reset():
     global act_winners, sz_winners
-    selected_winners.clear()
 
-    for button_ in p_button:
-        button_.config(bg="SystemButtonFace")
+    for button in buttons.values():
+        if button.is_selected:
+            button.toggle()
+
+    for button in sz_buttons.values():
+        if button.is_selected:
+            button.toggle()
 
     act_winners, sz_winners = get_winners()
-
-    while not validate(act_winners):
-        act_winners, _ = get_winners()
-
-    update_label_text(win_label, "Board reset!")
 
 
 def validate(lst):
@@ -97,15 +100,19 @@ while not validate(act_winners):
 for i in range(7):
     for j in range(7):
         button_number = i * 7 + j + 1
-        button = tk.Button(root, text=button_number, command=lambda num=button_number: button_lock_number(num))
+        button = tk.Button(root, text=button_number, command=lambda num=button_number: button_click(num))
         button.grid(row=i + 3, column=j + 1, sticky="nsew")  # Use sticky to make buttons expand
         p_button.append(button)
+
+buttons = {i: Button(i, p_button[i - 1].config) for i in range(1, len(p_button) + 1)}
 
 for i in range(0, 10):
     button_number = i
     button = tk.Button(root, text=i, command=lambda num=button_number: button_sz_lock(num))
     button.grid(row=i + 2, column=9, sticky="nsew")
     sz_button.append(button)
+
+sz_buttons = {i: Button(i, sz_button[i].config) for i in range(len(sz_button))}
 
 reset_button = tk.Button(root, text="Reset", command=lambda: button_reset())
 reset_button.grid(row=14, column=3, columnspan=3, sticky="nsew")
@@ -125,4 +132,3 @@ for i in range(10):
     root.grid_rowconfigure(i + 13, minsize=50)
 
 root.mainloop()
-
