@@ -20,23 +20,16 @@ class Button:
         self.config_func(bg=color)
 
 
-def button_click(button_nr):
-    button = buttons[button_nr]
+def button_toggle(buttons_dict, button_nr, toggle_others=False):
+    if toggle_others:
+        for button in buttons_dict.values():
+            if button.is_selected and button.number != button_nr:
+                button.toggle()
+
+    button = buttons_dict[button_nr]
     button.toggle()
 
-    valid = validate([b.number for b in buttons.values() if b.is_selected])
-    update_label_text(validate_label, "Choice is valid!" if valid else "Choice is invalid!")
-
-
-def button_sz_lock(button_nr):
-    for button in sz_buttons.values():
-        if button.is_selected and button.number != button_nr:
-            button.toggle()
-
-    button = sz_buttons[button_nr]
-    button.toggle()
-
-    valid = validate([b.number for b in sz_buttons.values() if b.is_selected])
+    valid = validate([b.number for b in buttons_dict.values() if b.is_selected])
     update_label_text(validate_label, "Choice is valid!" if valid else "Choice is invalid!")
 
 
@@ -69,6 +62,8 @@ def button_reset():
 
     act_winners, sz_winners = get_winners()
 
+    update_label_text(win_label, "---Reset---")
+
 
 def validate(lst):
     return len(lst) == len(set(lst)) and len(set(lst)) == 6
@@ -100,7 +95,7 @@ while not validate(act_winners):
 for i in range(7):
     for j in range(7):
         button_number = i * 7 + j + 1
-        button = tk.Button(root, text=button_number, command=lambda num=button_number: button_click(num))
+        button = tk.Button(root, text=button_number, command=lambda num=button_number: button_toggle(buttons, num))
         button.grid(row=i + 3, column=j + 1, sticky="nsew")  # Use sticky to make buttons expand
         p_button.append(button)
 
@@ -108,7 +103,7 @@ buttons = {i: Button(i, p_button[i - 1].config) for i in range(1, len(p_button) 
 
 for i in range(0, 10):
     button_number = i
-    button = tk.Button(root, text=i, command=lambda num=button_number: button_sz_lock(num))
+    button = tk.Button(root, text=i, command=lambda num=button_number: button_toggle(sz_buttons, num, True))
     button.grid(row=i + 2, column=9, sticky="nsew")
     sz_button.append(button)
 
