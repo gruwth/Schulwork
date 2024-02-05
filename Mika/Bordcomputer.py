@@ -19,3 +19,5 @@ match eingabe:
         match temperatur:
             case 0:
                 print(f"Die Außentemperatur beträgt {temperatur}°C \nGefrierpunkt erreicht!")
+    case _:
+        print("Falsche Eingabe!")
