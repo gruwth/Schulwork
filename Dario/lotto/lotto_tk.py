@@ -29,7 +29,7 @@ def button_toggle(buttons_dict, button_nr, toggle_others=False):
     button = buttons_dict[button_nr]
     button.toggle()
 
-    valid = validate([b.number for b in buttons_dict.values() if b.is_selected])
+    valid = validate([b.number for b in buttons_dict.values() if b.is_selected], 7)
     update_label_text(validate_label, "Choice is valid!" if valid else "Choice is invalid!")
 
 
@@ -65,8 +65,8 @@ def button_reset():
     update_label_text(win_label, "---Reset---")
 
 
-def validate(lst):
-    return len(lst) == len(set(lst)) and len(set(lst)) == 6
+def validate(lst, length=6):
+    return len(lst) == len(set(lst)) and len(set(lst)) == length
 
 
 def get_winners():
