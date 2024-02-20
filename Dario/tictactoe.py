@@ -6,6 +6,7 @@ class tictactoe:
         self.player = 'X'
         self.computer = 'O'
         self.winner = None
+        self.ongoing = True
     
     def print_board(self):
         print("     |     |     ")
@@ -46,32 +47,37 @@ class tictactoe:
     def check_draw(self):
         return ' ' not in self.board
     
+    def play(self):
+        self.print_board()
+        while self.ongoing:
+            self.player_move()
+            self.print_board()
+            if self.check_winner():
+                print(f"{self.winner} hat gewonnen!")
+                self.ongoing = False
+                break
+            if self.check_draw():
+                print("Unentschieden!")
+                self.ongoing = False
+                break
+            self.computer_move()
+            print("Computer hat gezogen:")
+            self.print_board()
+            if self.check_winner():
+                print(f"{self.winner} hat gewonnen!")
+                self.ongoing = False
+                break
+            if self.check_draw():
+                print("Unentschieden!")
+                self.ongoing = False
+                break
+
 
 if __name__ == "__main__":
-    ongoing = True
     game = tictactoe()
-    game.print_board()
-    while ongoing:
-        game.player_move()
-        game.print_board()
-        if game.check_winner():
-            print(f"{game.winner} hat gewonnen!")
-            ongoing = False
-            break
-        if game.check_draw():
-            print("Unentschieden!")
-            ongoing = False
-            break
-        game.computer_move()
-        print("Computer hat gezogen:")
-        game.print_board()
-        if game.check_winner():
-            print(f"{game.winner} hat gewonnen!")
-            ongoing = False
-            break
-        if game.check_draw():
-            print("Unentschieden!")
-            ongoing = False
-            break
+    keep_playing = "y"
+    while keep_playing.lower() == "y":
+        game.play()
+        keep_playing = input("Nochmal spielen? (y/n): ")
     print("Spiel beendet.")
-
+    
