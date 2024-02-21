@@ -71,12 +71,17 @@ class tictactoe:
                 print("Unentschieden!")
                 self.ongoing = False
                 break
-
+    
+    def reset(self):
+        self.board = [' ']*9
+        self.winner = None
+        self.ongoing = True
 
 if __name__ == "__main__":
     game = tictactoe()
     keep_playing = "y"
     while keep_playing.lower() == "y":
+        game.reset()
         game.play()
         keep_playing = input("Nochmal spielen? (y/n): ")
     print("Spiel beendet.")
