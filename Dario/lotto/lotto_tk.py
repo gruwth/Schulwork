@@ -20,6 +20,22 @@ class Button:
         self.config_func(bg=color)
 
 
+class Lotto:
+    def __init__(self):
+        self.selected_winners = []
+        self.selected_sz = []
+        self.get_winners()
+
+    def get_winners(self):
+        self.selected_winners = [random.randint(1, 49) for _ in range(6)]
+        self.selected_sz = random.randint(1, 10)
+        while not self.validate_winners():
+            self.get_winners()
+
+    def validate_winners(self):
+        return len(self.selected_winners) == len(set(self.selected_winners)) and len(set(self.selected_winners)) == 6
+
+
 def button_toggle(buttons_dict, button_nr, toggle_others=False):
     if toggle_others:
         for button in buttons_dict.values():
@@ -29,7 +45,7 @@ def button_toggle(buttons_dict, button_nr, toggle_others=False):
     button = buttons_dict[button_nr]
     button.toggle()
 
-    valid = validate([b.number for b in buttons_dict.values() if b.is_selected])
+    valid = validate([b.number for b in buttons_dict.values() if b.is_selected], 7)
     update_label_text(validate_label, "Choice is valid!" if valid else "Choice is invalid!")
 
 
@@ -42,16 +58,14 @@ def button_lock_in():
     selected_sz = [b.number for b in sz_buttons.values() if b.is_selected]
 
     if validate(selected_numbers) and len(selected_sz) == 1:
-        amount = sum(1 for i in selected_numbers if i in act_winners)
-        sz_amount = 1 if selected_sz[0] == sz_winners else 0
+        amount = sum(1 for i in selected_numbers if i in lotto.selected_winners)
+        sz_amount = 1 if selected_sz[0] == lotto.selected_sz else 0
         update_label_text(win_label, f"Du hast {amount} + {sz_amount} richtig.")
     else:
         update_label_text(win_label, "Invalid selection.")
 
 
 def button_reset():
-    global act_winners, sz_winners
-
     for button in buttons.values():
         if button.is_selected:
             button.toggle()
@@ -60,19 +74,14 @@ def button_reset():
         if button.is_selected:
             button.toggle()
 
-    act_winners, sz_winners = get_winners()
+    lotto.get_winners()
 
+    update_label_text(validate_label, "")
     update_label_text(win_label, "---Reset---")
 
 
-def validate(lst):
-    return len(lst) == len(set(lst)) and len(set(lst)) == 6
-
-
-def get_winners():
-    regular_numbers = [random.randint(1, 49) for _ in range(6)]
-    superzahl = random.randint(1, 10)
-    return regular_numbers, superzahl
+def validate(selected_numbers, amount=6):
+    return len(selected_numbers) == len(set(selected_numbers)) and len(set(selected_numbers)) == amount
 
 
 root = tk.Tk()
@@ -82,15 +91,10 @@ root.minsize(500, 500)
 label = tk.Label(root, text="Lotto 6 aus 49")
 label.grid(row=0, column=0, columnspan=9)
 
+lotto = Lotto()
+
 p_button = []
 sz_button = []
-selected_winners = []
-selected_sz = []
-
-act_winners, sz_winners = get_winners()
-
-while not validate(act_winners):
-    act_winners, _ = get_winners()
 
 for i in range(7):
     for j in range(7):
