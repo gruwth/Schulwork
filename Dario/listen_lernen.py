@@ -1,4 +1,4 @@
-def get_names():
+def get_names_from_user_input():
     names = []
     for i in range(5):
         names.append(input(f"Enter name {i+1}: "))
@@ -12,7 +12,7 @@ def is_in_list(list, name):
 
 
 def main():
-    names = get_names()
+    names = get_names_from_user_input()
     print(reverse_list(names))
     print(is_in_list(names, input("Enter a name to check:")))
 
