@@ -1,41 +1,48 @@
+class PersonManager():
+    def __init__(self):
+        self.personen = {}
+    
+    def add_person(self, anzahl: int):
+        for _ in range(anzahl):
+            name = input("Bitte gib den Namen einer Person ein: ")
+            alter = int(input(f"Bitte gib das Alter von {name} ein: "))
+            person = Person(name, alter)
+            self.personen[name] = person
 
-personen = {}
+    def show_personen(self):
+        print("Namen und Alter aller Personen:")
+        for person in self.personen.items():
+            print(f"{person.name}: {person.alter} Jahre alt")
 
-def add_person(anzahl: int):
-    for _ in range(anzahl):
-        name = input("Bitte gib den Namen einer Person ein: ")
-        alter = int(input(f"Bitte gib das Alter von {name} ein: "))
-        personen[name] = alter
+    def update_personen(self):
+        name = input("Gib einen Person zum anpassen ein: ")
+        if name in self.personen:
+            neues_alter = int(input(f"Gib das neue Alter von {name} ein: "))
+            self.personen[name].alter = neues_alter
+            print(f"Das Alter von {name} wurde aktualisiert.")
+        else:
+            print(f"Die Person {name} existiert nicht im Wörterbuch.")
+    
+    def delete_personen(self):
+        name = input("Gib eine Person ein die entfernt werden soll: ")
+        if name in self.personen:
+            self.personen.pop(name)
+            print(f"{name} wurde aus dem Wörterbuch entfernt.")
+        else:
+            print(f"Die Person {name} existiert nicht im Wörterbuch.")
 
-def show_personen():
-    print("Namen und Alter aller Personen:")
-    for name, alter in personen.items():
-        print(f"{name}: {alter} Jahre alt")
+class Person():
+    def __init__(self, name: str, alter: int):
+        self.name = name
+        self.alter = alter
 
-def update_personen():
-    name = input("Gib einen Person zum anpassen ein: ")
-    if name in personen:
-        neues_alter = int(input(f"Gib das neue Alter von {name} ein: "))
-        personen[name] = neues_alter
-        print(f"Das Alter von {name} wurde aktualisiert.")
-    else:
-        print(f"Die Person {name} existiert nicht im Wörterbuch.")
-
-def delete_personen():
-    name = input("Gib eine Person ein die entfernt werden soll: ")
-    if name in personen:
-        personen.pop(name)
-        print(f"{name} wurde aus dem Wörterbuch entfernt.")
-    else:
-        print(f"Die Person {name} existiert nicht im Wörterbuch.")
 
 if __name__ == "__main__":
     anzahl = int(input("Wie viele Personen möchtest du hinzufügen? "))
-    add_person(anzahl)
+    pm = PersonManager()
+    pm.add_person(anzahl)
     while True:
-        show_personen()
-        update_personen()
-        show_personen()
-        delete_personen()
-
-    
+        pm.show_personen()
+        pm.update_personen()
+        pm.show_personen()
+        pm.delete_personen()
