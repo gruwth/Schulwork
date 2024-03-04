@@ -24,8 +24,13 @@ def namen_ueberpruefen(names):
     else:
         print(f"{name_to_check} ist nicht in der Liste enthalten.")
 
+def namen_sortieren(names):
+    sorted_names = sorted(names)
+    print(f"Die sortierte Liste der Namen lautet: {sorted_names}")
+
 # Hauptprogramm
 names = namenseingabe()
 liste_ausgeben(names)
 neuen_namen_hinzufuegen(names)
 namen_ueberpruefen(names)
+liste_ausgeben(names)
