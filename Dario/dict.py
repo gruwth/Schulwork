@@ -11,7 +11,7 @@ class PersonManager():
 
     def show_personen(self):
         print("Namen und Alter aller Personen:")
-        for person in self.personen.items():
+        for _, person in self.personen.items():
             print(f"{person.name}: {person.alter} Jahre alt")
 
     def update_personen(self):
