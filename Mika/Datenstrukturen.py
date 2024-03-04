@@ -11,7 +11,11 @@ def liste_ausgeben(names):
 
 def neuen_namen_hinzufuegen(names):
     new_name = input("Bitte gib einen neuen Namen ein, der hinzugefügt werden soll: ")
-    names.append(new_name)
+    if new_name in names:
+        print(f"{new_name} ist bereits in der Liste enthalten.")
+        neuen_namen_hinzufuegen(names)
+    else:
+        names.append(new_name)
 
 def namen_ueberpruefen(names):
     name_to_check = input("Bitte gib einen Namen ein, um zu überprüfen, ob er in der Liste enthalten ist: ")
