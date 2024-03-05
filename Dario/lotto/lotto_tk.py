@@ -45,8 +45,13 @@ def button_toggle(buttons_dict, button_nr, toggle_others=False):
     button = buttons_dict[button_nr]
     button.toggle()
 
-    valid = validate([b.number for b in buttons_dict.values() if b.is_selected], 7)
-    update_label_text(validate_label, "Choice is valid!" if valid else "Choice is invalid!")
+    selected_numbers = [b.number for b in buttons.values() if b.is_selected]
+    selected_sz = [b.number for b in sz_buttons.values() if b.is_selected]
+
+    if validate(selected_numbers) and len(selected_sz) == 1:
+        update_label_text(validate_label, "Choice is valid!")
+    else:
+        update_label_text(validate_label, "Choice is invalid.")
 
 
 def update_label_text(label_, text):
