@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>xdm5225's Image Uploader</title>
+      <link rel="icon" href="/images/icon.ico" type="image/x-icon">
+
+      <!-- Include Tailwind CSS from CDN -->
+      <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="style/styles.css">
+   </head>
+   <body>
+      <!-- Header -->
+      <nav class="py-4" style="background-color: #000000; opacity: 0.9;">
+         <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-xl px-4 font-bold text-purple-500 hover:text-purple-400 hover-effect">xdm5225</a>
+            <div>
+               <a href="#" class="px-4 text-purple-500 hover:text-purple-400 hover-effect">Home</a>
+               <a href="#" class="px-4 text-purple-500 hover:text-purple-400 hover-effect">Portfolio</a>
+               <a href="#" class="px-4 text-purple-500 hover:text-purple-400 hover-effect">Image Uploader</a>
+
+            </div>
+         </div>
+      </nav>
+      <!-- Main Content Wrapper with Gradient Background -->
+      <div class="main-content min-h-screen">
+         <!-- Hero Section -->
+         <section class="hero min-h-screen flex items-center justify-center">
+            <div class="text-center floating">
+               <h1 class="text-5xl md:text-7xl font-bold text-purple-100 mb-4">Ab einem gewissen Zeitpunkt...</h1>
+               <p class="text-xl text-purple-200">ist Sicherheit nur noch Zeitverschwendung</p>
+            </div>
+         </section>
+         <!-- Portfolio Section -->
+         <div class="flex justify-center items-center mt-8 mb-8 w-full">
+            <section class="portfolio py-12 w-full px-4 md:px-8">
+            <div class="container mx-auto">
+               <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
+                  <!-- Portfolio item example -->
+                  <div class="bg-gradient-to-bl from-purple-700 to-black rounded-lg shadow-lg hover:shadow-2xl transition duration-300 floating hover-effect">
+                     <img src="/images/portfolio.ico" alt="Portfolio Item" class="absolute w-7 h-7 top-3 left-3" style="width: 28px; height: 28px;">
+                     <div class="p-4 pl-3 pt-10">
+                        <h3 class="text-xl font-bold text-purple-300">Portfolio</h3>
+                        <p class="text-purple-200">Sachen machen</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </section>
+         </div>
+         <!-- Image Uploader -->
+         <section class="uploader py-12 text-center">
+            <div class="container mx-auto px-4 md:px-8">
+               <div class="border-2 border-dashed border-purple-500 p-12 rounded-lg bg-gradient-to-r from-purple-700 to-black hover:shadow-2xl floating hover-effect">
+                  <p class="mb-4 text-purple-200">Drag and drop your images here to upload</p>
+                  <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 hover-effect">Upload Image</button>
+               </div>
+            </div>
+         </section>
+      </div>
+      <!-- Footer -->
+      <footer class="py-4" style="background-color: #000000; opacity: 0.9">
+         <div class="container mx-auto text-center text-purple-400">
+            <p>&copy; 2024 xdm5225. All rights reserved.</p>
+         </div>
+      </footer>
+      <script src="scripts/focus-visible.js"></script>         
+   </body>
+</html>
