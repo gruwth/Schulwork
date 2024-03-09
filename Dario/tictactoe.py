@@ -36,6 +36,19 @@ class tictactoe:
         move = random.choice(possible_moves)
         self.board[move] = self.computer
     
+
+    def bleeh_computer_move(self):
+        winning_combinations = [[(i, j), i*3 + 2] for i in range(3) for j in range(2)]
+        winning_combinations += [[(i, i+3), i+6] for i in range(3)]
+        winning_combinations += [[(0, 4), 8], [(2, 4), 6]]
+
+        for combination in winning_combinations:
+            if self.board[combination[0][0]] == self.board[combination[0][1]] and self.board[combination[0][0]] != ' ' and self.board[combination[1]] == ' ':
+                self.board[combination[1]] = self.computer
+                return
+        self.computer_move()
+
+
     def check_winner(self):
         winning_combinations = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
         for i in winning_combinations:
@@ -60,7 +73,7 @@ class tictactoe:
                 print("Unentschieden!")
                 self.ongoing = False
                 break
-            self.computer_move()
+            self.bleeh_computer_move()
             print("Computer hat gezogen:")
             self.print_board()
             if self.check_winner():

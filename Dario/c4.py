@@ -10,6 +10,7 @@ class ConnectFour:
         self.ongoing = True
         self.move = None
 
+
     def print_board(self):
         print("|1|2|3|4|5|6|7|")
         for i in range(6):
@@ -23,6 +24,7 @@ class ConnectFour:
             return self.move >= 1 and self.move <= 7
         except Exception:
             return False
+        
         
     def validate_move(self, move):
         row = 5
@@ -46,6 +48,7 @@ class ConnectFour:
                 print("Spalte ist voll. Bitte eine andere Spalte wählen.")
                 continue
             break
+
 
     def computer_move(self):
         valid = False
@@ -72,8 +75,6 @@ class ConnectFour:
         return False
 
         
-
-
 if __name__ == "__main__":
     connect4 = ConnectFour()
     connect4.print_board()
