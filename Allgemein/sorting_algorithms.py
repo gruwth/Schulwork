@@ -128,6 +128,7 @@ class Algorithm:
         start = time.time()
         print("Starte Bogosort...")
         while not self.is_sorted():
+            print(self.liste)
             random.shuffle(self.liste)
         end = time.time()
         print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
@@ -150,10 +151,10 @@ class Algorithm:
 if __name__ == "__main__":
     algorithms = Algorithm()
 
-    algorithms.bubblesort(10000)
-    algorithms.insertionsort(10000)
-    algorithms.selectionsort(10000)
-    algorithms.quicksort(10000)
-    algorithms.mergesort(10000)
-    algorithms.python(10000)
-    algorithms.bogosort()
+    # algorithms.bubblesort(10000)
+    # algorithms.insertionsort(10000)
+    # algorithms.selectionsort(10000)
+    # algorithms.quicksort(10000)
+    # algorithms.mergesort(10000)
+    # algorithms.python(10000)
+    algorithms.bogosort(15)
