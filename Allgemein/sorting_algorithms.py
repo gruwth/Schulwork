@@ -27,7 +27,7 @@ class Algorithm:
                 if self.liste[j] > self.liste[j+1]:
                     self.liste[j], self.liste[j + 1] = self.liste[j + 1], self.liste[j]
         end = time.time()
-        print(f"Benötigte Zeit: {end - start} Sekunden bei {len(self.liste)} Elementen.")
+        print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
     
     def insertionsort(self, _len: int = 1000):
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
@@ -42,7 +42,7 @@ class Algorithm:
                 j -= 1
             self.liste[j + 1] = key
         end = time.time()
-        print(f"Benötigte Zeit: {end - start} Sekunden bei {len(self.liste)} Elementen.")
+        print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
     
     def selectionsort(self, _len: int = 1000):
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
@@ -56,7 +56,7 @@ class Algorithm:
                     min_index = j
             self.liste[i], self.liste[min_index] = self.liste[min_index], self.liste[i]
         end = time.time()
-        print(f"Benötigte Zeit: {end - start} Sekunden bei {len(self.liste)} Elementen.")
+        print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
     
     def quicksort(self, _len: int = 1000):
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
@@ -65,7 +65,7 @@ class Algorithm:
         print("Starte Quicksort...")
         self._quicksort(0, len(self.liste) - 1)
         end = time.time()
-        print(f"Benötigte Zeit: {end - start} Sekunden bei {len(self.liste)} Elementen.")
+        print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
 
     def _quicksort(self, low, high):
         if low < high:
@@ -90,7 +90,7 @@ class Algorithm:
         print("Starte Mergesort...")
         self._mergesort(self.liste)
         end = time.time()
-        print(f"Benötigte Zeit: {end - start} Sekunden bei {len(self.liste)} Elementen.")
+        print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
 
     def _mergesort(self, liste):
         if len(liste) > 1:
@@ -130,7 +130,16 @@ class Algorithm:
         while not self.is_sorted():
             random.shuffle(self.liste)
         end = time.time()
-        print(f"Benötigte Zeit: {end - start} Sekunden bei {len(self.liste)} Elementen.")
+        print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
+    
+    def python(self, _len: int = 1000):
+        if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
+            self.randomize_list(_len)
+        start = time.time()
+        print("Starte Python...")
+        self.liste.sort()
+        end = time.time()
+        print(f"Benötigte Zeit: {round(end - start, 6 if end - start >= 1 else 5)} Sekunden bei {len(self.liste)} Elementen.")
 
 
         
@@ -146,4 +155,5 @@ if __name__ == "__main__":
     algorithms.selectionsort(10000)
     algorithms.quicksort(10000)
     algorithms.mergesort(10000)
+    algorithms.python(10000)
     algorithms.bogosort()
