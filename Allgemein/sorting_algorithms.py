@@ -123,15 +123,18 @@ class Algorithm:
                 k += 1
 
     def bogosort(self, _len: int = 10):
+        tries = 0
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
             self.randomize_list(_len)
         start = time.time()
         print("Starte Bogosort...")
         while not self.is_sorted():
-            print(self.liste)
+            tries += 1
+            # print(self.liste)
             random.shuffle(self.liste)
         end = time.time()
         print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
+        print(f"Benötigte Versuche: {tries}")
     
     def python(self, _len: int = 1000):
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
@@ -151,10 +154,11 @@ class Algorithm:
 if __name__ == "__main__":
     algorithms = Algorithm()
 
-    # algorithms.bubblesort(10000)
-    # algorithms.insertionsort(10000)
-    # algorithms.selectionsort(10000)
-    # algorithms.quicksort(10000)
-    # algorithms.mergesort(10000)
-    # algorithms.python(10000)
-    algorithms.bogosort(15)
+    algorithms.bubblesort(10000)
+    algorithms.insertionsort(10000)
+    algorithms.selectionsort(10000)
+    algorithms.quicksort(10000)
+    algorithms.mergesort(10000)
+    algorithms.python(10000)
+    algorithms.bogosort()
+
