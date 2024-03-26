@@ -17,7 +17,14 @@ class Algorithm:
                 return False
         return True
 
+
+
     def bubblesort(self, _len: int = 1000):
+        '''
+        Big-O-Notation / Komplexität:
+        Bester Fall: O(n)
+        Schlechtester Fall: O(n^2)
+        '''
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
             self.randomize_list(_len)
         start = time.time()
@@ -29,7 +36,14 @@ class Algorithm:
         end = time.time()
         print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
     
+
+
     def insertionsort(self, _len: int = 1000):
+        '''
+        Big-O-Notation / Komplexität:
+        Bester Fall: O(n)
+        Schlechtester Fall: O(n^2)
+        '''
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
             self.randomize_list(_len)
         start = time.time()
@@ -44,7 +58,14 @@ class Algorithm:
         end = time.time()
         print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
     
+
+
     def selectionsort(self, _len: int = 1000):
+        '''
+        Big-O-Notation / Komplexität:
+        Bester Fall: O(n^2)
+        Schlechtester Fall: O(n^2)
+        '''
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
             self.randomize_list(_len)
         start = time.time()
@@ -58,7 +79,14 @@ class Algorithm:
         end = time.time()
         print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
     
+
+
     def quicksort(self, _len: int = 1000):
+        '''
+        Big-O-Notation / Komplexität:
+        Bester Fall: O(n log n)
+        Schlechtester Fall: O(n^2)
+        '''
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
             self.randomize_list(_len)
         start = time.time()
@@ -83,7 +111,14 @@ class Algorithm:
         self.liste[i + 1], self.liste[high] = self.liste[high], self.liste[i + 1]
         return i + 1
     
+
+
     def mergesort(self, _len: int = 1000):
+        '''
+        Big-O-Notation / Komplexität:
+        Bester Fall: O(n log n)
+        Schlechtester Fall: O(n log n)
+        '''
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
             self.randomize_list(_len)
         start = time.time()
@@ -122,7 +157,52 @@ class Algorithm:
                 j += 1
                 k += 1
 
+
+
+    def countingsort(self, _len: int = 1000):
+        '''
+        Big-O-Notation / Komplexität:
+        Bester Fall: O(n + k)
+        Schlechtester Fall: O(n + k)
+        '''
+        if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
+            self.randomize_list(_len)
+        start = time.time()
+        print("Starte Counting Sort...")
+        max_val = 0
+        count = [0] * (max(self.liste) + 1)
+        for i in self.liste:
+            count[i] += 1
+            if i > max_val:
+                max_val = i
+        self.liste = [num for num in range(max_val + 1) for _ in range(count[num])]
+        end = time.time()
+        print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
+    
+
+
+    def python(self, _len: int = 1000): # (Timsort)
+        '''
+        Big-O-Notation / Komplexität:
+        Bester Fall: O(n)
+        Schlechtester Fall: O(n log n)
+        '''
+        if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
+            self.randomize_list(_len)
+        start = time.time()
+        print("Starte Python...")
+        self.liste.sort()
+        end = time.time()
+        print(f"Benötigte Zeit: {round(end - start, 6 if end - start >= 1 else 5)} Sekunden bei {len(self.liste)} Elementen.")
+
+
+
     def bogosort(self, _len: int = 10):
+        '''
+        Big-O-Notation / Komplexität:
+        Bester Fall: O(n)
+        Schlechtester Fall: O((n + 1)!)
+        '''
         tries = 0
         if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
             self.randomize_list(_len)
@@ -136,14 +216,6 @@ class Algorithm:
         print(f"Benötigte Zeit: {round(end - start, 5)} Sekunden bei {len(self.liste)} Elementen.")
         print(f"Benötigte Versuche: {tries}")
     
-    def python(self, _len: int = 1000):
-        if self.is_sorted() or len(self.liste) == 0 or _len != len(self.liste):
-            self.randomize_list(_len)
-        start = time.time()
-        print("Starte Python...")
-        self.liste.sort()
-        end = time.time()
-        print(f"Benötigte Zeit: {round(end - start, 6 if end - start >= 1 else 5)} Sekunden bei {len(self.liste)} Elementen.")
 
 
         
@@ -153,12 +225,20 @@ class Algorithm:
 
 if __name__ == "__main__":
     algorithms = Algorithm()
+    '''
+    Big-O-Notation / Komplexität:
+    n = Länge der Liste
 
-    algorithms.bubblesort(10000)
-    algorithms.insertionsort(10000)
-    algorithms.selectionsort(10000)
-    algorithms.quicksort(10000)
-    algorithms.mergesort(10000)
-    algorithms.python(10000)
+    Countingsort: O(n + k)
+    k = Größe des größten Elements in der Liste 
+    '''
+
+    algorithms.bubblesort(10_000)
+    algorithms.insertionsort(10_000)
+    algorithms.selectionsort(10_000)
+    algorithms.quicksort(1_000_000)
+    algorithms.mergesort(1_000_000)
+    algorithms.countingsort(10_000_000)
+    algorithms.python(10_000_000)
     algorithms.bogosort()
 
