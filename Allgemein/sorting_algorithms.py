@@ -233,12 +233,11 @@ if __name__ == "__main__":
     k = Größe des größten Elements in der Liste 
     '''
 
-    algorithms.bubblesort(10_000)
-    algorithms.insertionsort(10_000)
-    algorithms.selectionsort(10_000)
-    algorithms.quicksort(1_000_000)
-    algorithms.mergesort(1_000_000)
-    algorithms.countingsort(10_000_000)
-    algorithms.python(10_000_000)
+    algorithms.bubblesort(100_000)
+    algorithms.insertionsort(100_000)
+    algorithms.selectionsort(100_000)
+    algorithms.quicksort(100_000)
+    algorithms.mergesort(100_000)
+    algorithms.countingsort(100_000)
+    algorithms.python(100_000)
     algorithms.bogosort()
-
